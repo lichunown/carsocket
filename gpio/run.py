@@ -40,52 +40,62 @@ from . import port
 class Car():
     def __init__(self):
         print "car init"
-        try:
-            port.init()
-        except Exception,e:
-            print e
         self.DEVIleft = 0  #deviation
         self.DEVIright = 0  #deviation
         self.left=[35,37]
         self.right=[36,38]
         try:
-            self.left1 = GPIO.PWM(self.left[0],500)
-            self.left2 = GPIO.PWM(self.left[1],500) 
-            self.right1 = GPIO.PWM(self.right[0],500)
-            self.right2 = GPIO.PWM(self.right[1],500) 
+            GPIO.setmode(GPIO.BOARD)
         except Exception,e:
-            print e        
+            print e
+        for item in self.left+self.right:
+            try:
+                GPIO.setup(item,GPIO.OUT)
+            except Exception,e:
+                print "%d error:%s" % (item,e)        
+        self.left1 = GPIO.PWM(self.left[0],500)
+        self.left2 = GPIO.PWM(self.left[1],500) 
+        self.right1 = GPIO.PWM(self.right[0],500)
+        self.right2 = GPIO.PWM(self.right[1],500)         
         self.left1.ChangeDutyCycle(100)
         self.left2.ChangeDutyCycle(100)    
         self.right1.ChangeDutyCycle(100)
         self.right2.ChangeDutyCycle(100)          
-    def go(self,devleft = self.DEVIleft,devright = self.DEVIright):
+    def go(self,devleft = None,devright = None):
         # self.left1.ChangeDutyCycle(devleft)
         # self.right1.ChangeDutyCycle(devright)
         # self.left2.ChangeDutyCycle(100)  
         # self.right2.ChangeDutyCycle(100) 
+        devleft = self.DEVIleft if not devleft else devleft
+        devright = self.DEVIright if not devright else devright
         self.rightgo(devright)
         self.leftgo(devleft)
     def stop(self):
         self.leftstop()
         self.rightstop()
-    def back(self,devleft = self.DEVIleft,devright = self.DEVIright):
+    def back(self,devleft = None,devright = None):
+        devleft = self.DEVIleft if not devleft else devleft
+        devright = self.DEVIright if not devright else devright        
         self.leftback(devleft)
         self.rightback(devright)
 
-    def leftgo(self,dev = self.DEVIleft):
+    def leftgo(self,dev = None):
+        dev = self.DEVIleft if not dev else dev
         self.left1.ChangeDutyCycle(dev)
         self.left2.ChangeDutyCycle(100)  
-    def leftback(self,dev = self.DEVIleft):
+    def leftback(self,dev = None):
+        dev = self.DEVIleft if not dev else dev
         self.left1.ChangeDutyCycle(100)                      
         self.left2.ChangeDutyCycle(dev)
     def leftstop(self):
         self.left1.ChangeDutyCycle(100)                      
         self.left2.ChangeDutyCycle(100)      
-    def rightgo(self,dev = self.DEVIright):
+    def rightgo(self,dev = None):
+        dev = self.DEVIright if not dev else dev       
         self.right1.ChangeDutyCycle(dev)
         self.left2.ChangeDutyCycle(100) 
-    def rightback(self,dev = self.DEVIright):
+    def rightback(self,dev = None):
+        dev = self.DEVIright if not dev else dev            
         self.right1.ChangeDutyCycle(100)
         self.right2.ChangeDutyCycle(dev)
     def rightstop(self):
