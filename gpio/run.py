@@ -66,36 +66,36 @@ class Car():
         # self.right1.ChangeDutyCycle(devright)
         # self.left2.ChangeDutyCycle(100)  
         # self.right2.ChangeDutyCycle(100) 
-        devleft = self.DEVIleft if not devleft else devleft
-        devright = self.DEVIright if not devright else devright
+        devleft = self.DEVIleft if not devleft else int(devleft)
+        devright = self.DEVIright if not devright else int(devright)
         self.rightgo(devright)
         self.leftgo(devleft)
     def stop(self):
         self.leftstop()
         self.rightstop()
     def back(self,devleft = None,devright = None):
-        devleft = self.DEVIleft if not devleft else devleft
-        devright = self.DEVIright if not devright else devright        
+        devleft = self.DEVIleft if not devleft else int(devleft)
+        devright = self.DEVIright if not devright else int(devright)        
         self.leftback(devleft)
         self.rightback(devright)
 
     def leftgo(self,dev = None):
-        dev = self.DEVIleft if not dev else dev
+        dev = self.DEVIleft if not dev else int(dev)
         self.left1.ChangeDutyCycle(dev)
         self.left2.ChangeDutyCycle(100)  
     def leftback(self,dev = None):
-        dev = self.DEVIleft if not dev else dev
+        dev = self.DEVIleft if not dev else int(dev)
         self.left1.ChangeDutyCycle(100)                      
         self.left2.ChangeDutyCycle(dev)
     def leftstop(self):
         self.left1.ChangeDutyCycle(100)                      
         self.left2.ChangeDutyCycle(100)      
     def rightgo(self,dev = None):
-        dev = self.DEVIright if not dev else dev       
+        dev = self.DEVIright if not dev else int(dev)       
         self.right1.ChangeDutyCycle(dev)
         self.left2.ChangeDutyCycle(100) 
     def rightback(self,dev = None):
-        dev = self.DEVIright if not dev else dev            
+        dev = self.DEVIright if not dev else int(dev)            
         self.right1.ChangeDutyCycle(100)
         self.right2.ChangeDutyCycle(dev)
     def rightstop(self):
